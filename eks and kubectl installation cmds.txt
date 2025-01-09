@@ -1,0 +1,36 @@
+
+eksctl installation
+
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/v0.82.0/eksctl_Linux_amd64.tar.gz" | tar xz -C /usr/local/bin
+
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+    8  unzip awscliv2.zip
+    9  sudo ./aws/install
+   10  sudo apt install unzip
+   11  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+   12  unzip awscliv2.zip
+   13  sudo ./aws/install
+   14  aws --version
+   15  /usr/local/bin/aws --version
+   16  nano ~/.bashrc
+   17  aws configure
+   18  source ~/.bashrc
+   19  aws configure
+   20  # for ARM systems, set ARCH to: `arm64`, `armv6` or `armv7`
+   21  ARCH=amd64
+   22  PLATFORM=$(uname -s)_$ARCH
+   23  curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
+   24  # (Optional) Verify checksum
+   25  curl -sL "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_checksums.txt" | grep $PLATFORM | sha256sum --check
+   26  tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
+   27  sudo mv /tmp/eksctl /usr/local/bin
+   28  eksctl version
+   29  curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.2/2024-11-15/bin/linux/amd64/kubectl
+   30  curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.2/2024-11-15/bin/linux/amd64/kubectl.sha256
+   31  sha256sum -c kubectl.sha256
+   32  chmod +x ./kubectl
+   33  mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
+   34  echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
+   35  kubectl versio --client
+   36  kubectl version --client
+   37  eksctl create cluster --name mylaptop --region us-east-1 --nodegroup-name standard --node-type t3.medium --nodes 3 --nodes-min 1 --nodes-max-3 --managed --oidc
