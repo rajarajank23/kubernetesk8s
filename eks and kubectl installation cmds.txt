@@ -34,3 +34,70 @@ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip
    35  kubectl versio --client
    36  kubectl version --client
    37  eksctl create cluster --name mylaptop --region us-east-1 --nodegroup-name standard --node-type t3.medium --nodes 3 --nodes-min 1 --nodes-max-3 --managed --oidc
+
+create cluster cmd:
+# Create Cluster
+eksctl create cluster --name=amcdemo \
+                      --region=us-east-1 \
+                      --zones=us-east-1a,us-east-1b \
+                      --without-nodegroup                  
+
+# Get List of clusters
+eksctl get cluster
+
+# Template
+eksctl utils associate-iam-oidc-provider \
+    --region region-code \
+    --cluster <cluter-name> \
+    --approve
+
+# Replace with region & cluster name
+eksctl utils associate-iam-oidc-provider \
+    --region us-east-1 \
+    --cluster amcdemo \
+    --approve
+
+# Create Public Node Group   
+eksctl create nodegroup --cluster=amcdemo \
+                       --region=us-east-1 \
+                       --name=amcdemo-ng-public1 \
+                       --node-type=t3.medium \
+                       --nodes=2 \
+                       --nodes-min=2 \
+                       --nodes-max=4 \
+                       --node-volume-size=20 \
+                       --ssh-access \
+                       --ssh-public-key=amc-demo \
+                       --managed \
+                       --asg-access \
+                       --external-dns-access \
+                       --full-ecr-access \
+                       --appmesh-access \
+                       --alb-ingress-access
+
+# List EKS clusters
+eksctl get cluster
+
+# List NodeGroups in a cluster
+eksctl get nodegroup --cluster=<clusterName>
+
+# List Nodes in current kubernetes cluster
+kubectl get nodes -o wide
+
+# Our kubectl context should be automatically changed to new cluster
+kubectl config view --minify
+
+# List EKS Clusters
+eksctl get clusters
+
+# Capture Node Group name
+eksctl get nodegroup --cluster=<clusterName>
+eksctl get nodegroup --cluster=amcdemo
+
+# Delete Node Group
+eksctl delete nodegroup --cluster=<clusterName> --name=<nodegroupName>
+eksctl delete nodegroup --cluster=amcdemo --name=amcdemo-ng-public
+
+# Delete Cluster
+eksctl delete cluster <clusterName>
+eksctl delete cluster amcdemo
