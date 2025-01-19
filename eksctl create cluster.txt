@@ -1,0 +1,44 @@
+eksctl create cluster \
+  --name public-eks-cluster \
+  --region <region> \
+  --vpc-public-subnets subnet-xxxxxxxx,subnet-yyyyyyyy \
+  --without-nodegroup
+
+
+eksctl create cluster \
+  --name public-eks-cluster \
+  --region us-east-1,us-east-2 --zones us-east-1a,us-east-1b  \
+  --vpc-public-subnets subnet-08ae3a70cc4b36e4b,subnet-092ea99a086a1852d \
+  --without-nodegroup
+                                  
+
+
+eksctl create cluster --name mydev --region us-east-1 --zones us-east-1a,us-east-1b --vpc-public-subnets subnet-08ae3a70cc4b36e4b,subnet-092ea99a086a1852d --without-nodegroup  
+
+
+eksctl create nodegroup --cluster=amcdemo \
+                       --region=us-east-1 \
+                       --name=amcdemo-ng-public1 \
+                       --node-type=t3.medium \
+                       --nodes=2 \
+                       --nodes-min=2 \
+                       --nodes-max=4 \
+                       --node-volume-size=20 \
+                       --ssh-access \
+                       --ssh-public-key=docker \
+                       --managed \   
+
+eksctl create nodegroup \
+  --cluster my-cluster \
+  --region us-east-1 \
+  --name public-node-group \
+  --node-type t3.medium \
+  --nodes 2 \
+  --nodes-min 1 \
+  --nodes-max 3 \
+  --node-volume-size 20 \
+  --ssh-access \
+  --ssh-public-key docker \
+  --managed \
+  --subnet-08ae3a70cc4b36e4b,subnet-092ea99a086a1852d
+                                                                   
